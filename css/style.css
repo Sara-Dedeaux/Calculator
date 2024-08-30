@@ -1,15 +1,31 @@
-.btnSpace{
+body{
+ 
+}
+
+.calcDisplay {
+    background-color: aquamarine;
+    height: 100px;
+    border: 2px solid black;
+    border-radius: 10px;
+    border: inset 5px black;
    
 }
 
+.calcBody{
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: blueviolet;
+    
+}
 
 input{
    width: 100px;
    height: 100px;
    border-radius: 50px;
    border-bottom-width: 6px;
-   
-  
+   background-color: aquamarine;
+   font-family: "PT Mono", monospace;
 
 }
+
 
