@@ -32,7 +32,6 @@ let operationButtons=document.querySelectorAll(".operation");
 operationButtons.forEach(input =>{
     input.addEventListener("click", ()=>{
     firstNum=parseFloat(userInput);
-        console.log(firstNum)
         runningDisplay.innerHTML=(firstNum+ " " + input.value +" ")
         toMain("");
 
@@ -65,7 +64,6 @@ addBtn.addEventListener("click", ()=>{
 let equalsBtn=document.getElementById("equals")
 equalsBtn.addEventListener("click", ()=>{
     secondNum=parseFloat(userInput);
-    console.log(secondNum)
     runningDisplay.innerHTML+=(secondNum+ " " + equalsBtn.value)
     toMain("");
 
@@ -73,26 +71,21 @@ equalsBtn.addEventListener("click", ()=>{
     case shouldAdd:
         total=firstNum+secondNum;
         break;
-
     case shouldDiv:
         total=firstNum / secondNum;  
         break;
-
     case shouldMult :
         total=firstNum * secondNum;  
         break;
-
     case shouldSub :
         total=firstNum  - secondNum;  
         break;
-   
     default:
         alert("Error")
         break;
     }
     toMain(total); 
     runningDisplay.innerHTML+=(" " + total)
-
     resetBools();
 
     //CREATE AN OBJECT TO STORE THE DATA TO USE IN FUTURE OPERATIONS
@@ -110,13 +103,18 @@ function toMain(display){
     displayScreen.innerHTML=display;
 }
 
-//CLEAR BUTTON
+//CLEAR ENTRY BUTTON
 
 //CLEAR ALL BUTTON
 
 //GRAND TOTAL BUTTON
 
-//
+
+
+//EXTRA FEATURES GOAL:
+//CAPTURE AS MANY NUMBERS AS USER WOULD LIKE TO ADD
+//PROGRAM ORDER OF OPERATIONS INTO CALCULATOR
+
 
 
 
