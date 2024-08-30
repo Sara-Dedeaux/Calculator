@@ -1,17 +1,14 @@
-//TARGET ELEMENTS 
+//TARGET ELEMENTS TO DISPLAY TO PAGE
 let displayScreen=document.querySelector("h1");
 let runningDisplay=document.querySelector(".calcBody p");
-let subBtn=getElementById("subtract");
-let multBtn=getElementById("multiply");
-let divBtn=getElementById("divide");
 
 //TARGET USER INPUT
 let userInput; 
 let firstNum;
 let secondNum;
 
-
-
+//CALCULATIONS VARIABLES
+let total;
 
 //DISPLAY NUMBER BUTTON VALUES TO PAGE WHEN CLICKED
 let numButtons=document.querySelectorAll(".num");
@@ -33,46 +30,93 @@ deletedNum.addEventListener("click", ()=>{
 //SAVE USER INPUT ONCE OPERATION BUTTON IS CLICKED
 let operationButtons=document.querySelectorAll(".operation");
 operationButtons.forEach(input =>{
-    input.addEventListener("click", function(){
-        firstNum=parseFloat(userInput);
+    input.addEventListener("click", ()=>{
+    firstNum=parseFloat(userInput);
         console.log(firstNum)
-        toRunning(firstNum + " " + input.value)
-        toMain("")
-        
-        
+        runningDisplay.innerHTML=(firstNum+ " " + input.value +" ")
+        toMain("");
+
     })
 })
 
+//EVALUATE OPERATIONS SELECTED 
+let subBtn=document.getElementById("subtract");
+let shouldSub=false;
+subBtn.addEventListener("click", ()=>{
+    shouldSub=true;
+})
+let multBtn=document.getElementById("multiply");
+let shouldMult=false;
+multBtn.addEventListener("click", ()=>{
+    shouldMult=true;
+})
+let divBtn=document.getElementById("divide");
+let shouldDiv=false;
+divBtn.addEventListener("click", ()=>{
+    shouldDiv=true;
+})
+let addBtn=document.getElementById("add");
+let shouldAdd=false;
+addBtn.addEventListener("click", ()=>{
+    shouldAdd=true;
+})
+
+//SAVE USER INPUT ONCE = SIGN IS CLICKED AND RUN CALCULATIONS
+let equalsBtn=document.getElementById("equals")
+equalsBtn.addEventListener("click", ()=>{
+    secondNum=parseFloat(userInput);
+    console.log(secondNum)
+    runningDisplay.innerHTML+=(secondNum+ " " + equalsBtn.value)
+    toMain("");
+
+   switch (true) {
+    case shouldAdd:
+        total=firstNum+secondNum;
+        break;
+
+    case shouldDiv:
+        total=firstNum / secondNum;  
+        break;
+
+    case shouldMult :
+        total=firstNum * secondNum;  
+        break;
+
+    case shouldSub :
+        total=firstNum  - secondNum;  
+        break;
+   
+    default:
+        alert("Error")
+        break;
+    }
+    toMain(total); 
+    runningDisplay.innerHTML+=(" " + total)
+
+    resetBools();
+
+    //CREATE AN OBJECT TO STORE THE DATA TO USE IN FUTURE OPERATIONS
+});
 
 
-
-
-
-//ADD 
-let addBtn=getElementById("add");
-
-
-
-
-
-
+function resetBools(){
+    shouldAdd=false;
+    shouldDiv=false;
+    shouldMult=false;
+    shouldSub=false;
+}
 
 function toMain(display){
     displayScreen.innerHTML=display;
 }
 
-function toRunning(display){
-    runningDisplay.innerHTML=display
-}
+//CLEAR BUTTON
 
+//CLEAR ALL BUTTON
 
+//GRAND TOTAL BUTTON
 
+//
 
-
-
-//IF A BUTTON IS CLICKED DISPLAY TO THE SCREEN 
-
-
-//CREATE FUNCTIONS TO PREFORM CALCULATIONS
 
 
