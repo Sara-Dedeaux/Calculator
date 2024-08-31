@@ -1,22 +1,26 @@
 //TARGET ELEMENTS TO DISPLAY TO PAGE
 let displayScreen=document.querySelector("h1");
 let runningDisplay=document.querySelector(".calcBody p");
+function toMain(display){
+    displayScreen.innerHTML=display;
+}
+function toRunning(display){
+    runningDisplay.innerHTML+=display;
+}
 
 //TARGET USER INPUT
 let userInput; 
 let capturedNum;
 let numsEntered = [];
-let totalsEntered= [];
-
+let totalsEntered= []; //NOT YET USED
 
 //CALCULATIONS VARIABLES
 let subTotal=0;
-let total;
-let expressionArr=[];
+let total=0;
 let firstNum;
 let secondNum;
 
-//DISPLAY NUMBER BUTTON VALUES TO PAGE WHEN CLICKED
+//TARGETS NUMBER BUTTONS FOR CLICK EVENT TO SET USER INPUT
 let numButtons=document.querySelectorAll(".num");
 numButtons.forEach(input =>{
     input.addEventListener("click", function() {
@@ -24,157 +28,97 @@ numButtons.forEach(input =>{
     })
 })
 
-//CREATE FUNCTIONS 
-function toMain(display){
-    displayScreen.innerHTML=display;
-}
-
-function resetBools(){
-    shouldAdd=false;
-    shouldDiv=false;
-    shouldMult=false;
-    shouldSub=false;
-}
-
-function toRunning(display){
-    runningDisplay.innerHTML+=(" " + display); 
-}
-
 //SAVE USER INPUT ONCE OPERATION BUTTON IS CLICKED
 let operationButtons=document.querySelectorAll(".operation");
 operationButtons.forEach(input =>{
     input.addEventListener("click", ()=>{
         capturedNum=(userInput);
         numsEntered.push(capturedNum);
-        runningDisplay.innerHTML+=(capturedNum + " " + input.value +" ")
+        toRunning(capturedNum + " " + input.value +" ")
         capturedNum="";
         toMain("");
-        
+        numsEntered.push(input.value);
     })
 })
 
 //WHEN = IS CLICKED: 
-let equalsBtn=document.getElementById("equals")
-equalsBtn.addEventListener("click", calculations)
-
-//EVALUATE OPERATIONS SELECTED 
-let subBtn=document.getElementById("subtract");
-let shouldSub=false;
-subBtn.addEventListener("click", ()=>{
-    shouldSub=true;
-    numsEntered.push("-");
-})
-let multBtn=document.getElementById("multiply");
-let shouldMult=false;
-multBtn.addEventListener("click", ()=>{
-    shouldMult=true;
-    numsEntered.push("*");
-
-})
-let divBtn=document.getElementById("divide");
-let shouldDiv=false;
-divBtn.addEventListener("click", ()=>{
-    shouldDiv=true;
-    numsEntered.push("/");
-
-})
-let addBtn=document.getElementById("add");
-let shouldAdd=false;
-addBtn.addEventListener("click", ()=>{
-    shouldAdd=true;
-    numsEntered.push("+");
-
-    
-
-
-
-})
+let equalsBtn=document.getElementById("equals");
+equalsBtn.addEventListener("click", calculations);
 
 function calculations(){
-     capturedNum=userInput;
-     numsEntered.push(capturedNum);
+    //CAPUTRES LAST NUMBER ENTERED NEEDED TO BEGIN CALCULATIONS
+    capturedNum=userInput;
+    numsEntered.push(capturedNum);
     numsEntered.push("=")
-    let expression;
-    let sumArr=[];
-    console.log(numsEntered)
-
-    runningDisplay.innerHTML+=(capturedNum + " = " )
+    toRunning(capturedNum + " = " );
     
-  
+   //LOOP THROUGH ALL NUMS ENTERED AND IF MULTIPLE EXPRESSIONS HAVE BEEN ENTERED - THEY CAN BE EVAULATED SEPARATELY 
     for (let i = 0; i < numsEntered.length; i++) {
-        
         const element = numsEntered[i];
         
+        //IF AN EQUAL SIGN IS FOUND IT IS KNOWN THAT THE EXPRESSION IS COMPLETED AND CAN USE i INDEX TO KNOW HOW MANY ELEMENTS EXIST IN EXPRESSION TO BE EVALUATED
         if (element== "=") {
-            
-            expression= numsEntered[i-1]
-            for (let j = i-2; j >= 0; j--) {
-                 const element2= numsEntered[j]
-                 expression+=element2;
-                         
-            }
-            let reverseString= expression.split("");
-            reverseString.reverse();
-            expression=reverseString.join("");
+            for (let j = 0; j<i; j++) {
+                //IF AN OPERATOR IS FOUND WE KNOW THE NEXT ELEMENT IS THE SECOND NUMBER IN THE EXPRESSION
+                if (numsEntered[j]=="+" ||(numsEntered[j])== '-' ||(numsEntered[j])=='*' ||(numsEntered[j])=='/'){
+                    secondNum=parseFloat(numsEntered[j+1]);
 
-            expressionArr.push(expression)
-        }
-        
-        for (let i = 0; i < expressionArr.length; i++) {
-            const element = expressionArr[i];
-            console.log(element)
-            let buffer=element.split("")
-            
-            for (let j = 0; j < buffer.length; j++) {
-                const element = buffer[j];
-                
-                
-                if (element=="+" || element== '-' || element=='*' || element=='/'){
-                    secondNum=parseFloat(buffer[j+1]);
+                    //IF j IS LESS THAN OR = TO 1 THEN WE KNOW IT IS THE FIRST NUMBER IN THE EXPRESSION- THE CURRENT INDEX IS AT THE OPERATION SIGN SO WE LOOK ONE SPACE BEHIND IT
                     if (j<=1) {
-                        firstNum=parseFloat(buffer[j-1]);
+                        firstNum=parseFloat(numsEntered[j-1]);
+                    //ELSE A NUMBER HAS BEEN ADDED BEFORE SO THE FIRST NUM IS SET AS THE SUBTOTAL
                     }else{
                         firstNum=subTotal;
                     }
-
-                    if (element== "+") {
+                    //ONCE VARIABLES TO CALCULATE HAVE BEEN SET CALCULATIONS HAPPEN BASED ON OPERATION SIGN
+                    if (numsEntered[j]== "+") {
                         subTotal=firstNum+secondNum
-                        console.log(subTotal)
-                        
-
-                    }else if (element == "-") {
+                    }else if (numsEntered[j] == "-") {
                         subTotal=firstNum-secondNum
-                    }else if (element == "*"){
+                    }else if (numsEntered[j] == "*"){
                         subTotal= firstNum*secondNum
-                    }else if (element== "/") {
-                        subTotal=firstNum*secondNum
-                    }//END INNER IF/ELSE
-                    
-                }//END OUTTER IF
-
-               
-                toMain(subTotal)
-            }//END INNER FOR LOOP
-            
-            runningDisplay.innerHTML+=(subTotal+" ")
-            
-
-        }//END MIDDLE FOR LOOP
+                    }else if (numsEntered[j]== "/") {
+                        subTotal=firstNum/secondNum
+                    } 
+                }
+            }
+        }
     }//END OUTTER FOR LOOP
-
-    console.log(subTotal)
-
+    toRunning(subTotal + " ")
+    toMain(subTotal)
+    totalsEntered.push(subTotal);
+    console.log(totalsEntered);
 }//END FUNCTION
+
+
+   
+
+//GRAND TOTAL BUTTON
+let gtBtn=document.getElementById("grandTotal");
+gtBtn.addEventListener("click", ()=>{
+    runningDisplay.innerHTML="";
+    totalsEntered.forEach(element => {
+        total+=element;
+        toRunning("+" + element + " ");
+        
+    });
+
+    toMain(total);
+})
+    
+
+
 
 //CLEAR ALL BUTTON
 let clearBtn=document.getElementById("clearAll");
 clearBtn.addEventListener("click", ()=>{
     capturedNum="";
     numsEntered=[];
-    expressionArr=[];
+    totalsEntered=[];
     runningDisplay.innerHTML="";
     userInput="";
     toMain(userInput);
+
 })
 
 //REMOVE LAST NUMBER ENTERED BY USER ON CLICK OF DELETE BUTTON
@@ -195,15 +139,98 @@ toMain(userInput);
 })
 
 
+//KEY PRESS FUNCTIONALITY ADDED 
+document.addEventListener('keydown', function(event) {
+    switch (true) {
+        case event.key=='.':
+            userInput=displayScreen.innerHTML+=event.key;
+        case event.key=='0':
+            userInput=displayScreen.innerHTML+=event.key;
+        break;
+        case event.key=='1':
+            userInput=displayScreen.innerHTML+=event.key;
+        break;
+        case event.key=='2':
+            userInput=displayScreen.innerHTML+=event.key;
+        break;
+        case event.key=='3':
+            userInput=displayScreen.innerHTML+=event.key;
+        break;
+        case event.key=='4':
+            userInput=displayScreen.innerHTML+=event.key;
+        break;
+        case event.key=='5':
+            userInput=displayScreen.innerHTML+=event.key;
+        break;
+        case event.key=='6':
+            userInput=displayScreen.innerHTML+=event.key;
+        break;
+        case event.key=='7':
+            userInput=displayScreen.innerHTML+=event.key;
+        break;
+        case event.key=='8':
+            userInput=displayScreen.innerHTML+=event.key;
+        break;
+        case event.key=='9':
+            userInput=displayScreen.innerHTML+=event.key;
+        break;
+        case event.key=='+':
+            capturedNum=(userInput);
+            numsEntered.push(capturedNum);
+            toRunning(capturedNum + " " + event.key +" ")
+            capturedNum="";
+            toMain("");
+            numsEntered.push(event.key)
+        break;
+        case event.key=='-':
+            capturedNum=(userInput);
+            numsEntered.push(capturedNum);
+            toRunning(capturedNum+ " " + event.key +" ")
+            capturedNum="";
+            toMain("");
+            numsEntered.push(event.key)
+        break;
+        case event.key=='*':
+            capturedNum=(userInput);
+            numsEntered.push(capturedNum);
+            toRunning(capturedNum + " " + event.key +" ")
+            capturedNum="";
+            toMain("");
+            numsEntered.push(event.key)
+        break;
+        case event.key=='/':
+            capturedNum=(userInput);
+            numsEntered.push(capturedNum);
+            toRunning(capturedNum + " " + event.key +" ")
+            capturedNum="";
+            toMain("");
+            numsEntered.push(event.key)
+        break;
+        case event.key=="Enter":
+          calculations();
+        break;
+        case event.key== "=":
+          calculations();
+        break;
+        case event.key=="Delete":
+            firstNum="";
+            secondNum="";
+            runningDisplay.innerHTML="";
+            numsEntered= [];
+            userInput="";
+            toMain(userInput);
+        break;
+        case event.key== "Backspace":
+            let alterInput= userInput.split("");
+            alterInput.pop(); 
+            userInput= alterInput.join("");
+            toMain(userInput);
+        break;
+        default:
+            break
+        }   
+    })
+
+
     
-   //fill an array with numbers, operators, and = sign. 
-   //pattern should inlcude: number operator number operator
-   //numArray[1] operator[1] numArray[2] operator[2]... .this should continue 
-   // or array [1] number [2] operation [3] number [4] operation  
-   //so when looped and = is found - loop backward through array
-
-   //1+3=
-   //expression= splice array if + is found arr[]
-
-
-    
+   
