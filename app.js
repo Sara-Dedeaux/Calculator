@@ -163,7 +163,8 @@ deletedNum.addEventListener("click", ()=>{
 let operationButtons=document.querySelectorAll(".operation");
 operationButtons.forEach(input =>{
     input.addEventListener("click", ()=>{
-    firstNum=parseFloat(userInput);
+        firstNum=parseFloat(userInput);
+        
         runningDisplay.innerHTML=(firstNum + " " + input.value +" ")
         toMain("");
         
@@ -254,6 +255,7 @@ clearBtn.addEventListener("click", ()=>{
     userInput="";
     toMain(userInput);
 })
+
 
 
 //EXTRA FEATURES GOAL:
