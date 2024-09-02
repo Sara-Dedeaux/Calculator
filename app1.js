@@ -12,13 +12,16 @@ function toRunning(display){
 let userInput; 
 let capturedNum;
 let numsEntered = [];
-let totalsEntered= []; //NOT YET USED
+let totalsEntered= []; 
+let expressionArr=[];
 
 //CALCULATIONS VARIABLES
 let subTotal=0;
 let total=0;
 let firstNum;
 let secondNum;
+
+
 
 //TARGETS NUMBER BUTTONS FOR CLICK EVENT TO SET USER INPUT
 let numButtons=document.querySelectorAll(".num");
@@ -41,12 +44,25 @@ operationButtons.forEach(input =>{
     })
 })
 
+//WHEN - IS DOUBLE CLICKED - USER INPUT CAN BE CHANGED TO A NEGATIVE NUMBER
+let negNumBtn=document.getElementById("negative");
+negNumBtn.addEventListener("dblclick", ()=>{
+    console.log("i work")
+    capturedNum=(userInput);
+    capturedNum=(parseFloat(userInput)*-1);
+    userInput=capturedNum
+    console.log(capturedNum)
+    numsEntered.push(capturedNum);
+     toMain(capturedNum);
+})
+
 //WHEN = IS CLICKED: 
 let equalsBtn=document.getElementById("equals");
 equalsBtn.addEventListener("click", calculations);
 
 function calculations(){
     //CAPUTRES LAST NUMBER ENTERED NEEDED TO BEGIN CALCULATIONS
+    
     capturedNum=userInput;
     numsEntered.push(capturedNum);
     numsEntered.push("=")
@@ -58,40 +74,109 @@ function calculations(){
         
         //IF AN EQUAL SIGN IS FOUND IT IS KNOWN THAT THE EXPRESSION IS COMPLETED AND CAN USE i INDEX TO KNOW HOW MANY ELEMENTS EXIST IN EXPRESSION TO BE EVALUATED
         if (element== "=") {
-            for (let j = 0; j<i; j++) {
-                //IF AN OPERATOR IS FOUND WE KNOW THE NEXT ELEMENT IS THE SECOND NUMBER IN THE EXPRESSION
-                if (numsEntered[j]=="+" ||(numsEntered[j])== '-' ||(numsEntered[j])=='*' ||(numsEntered[j])=='/'){
-                    secondNum=parseFloat(numsEntered[j+1]);
 
-                    //IF j IS LESS THAN OR = TO 1 THEN WE KNOW IT IS THE FIRST NUMBER IN THE EXPRESSION- THE CURRENT INDEX IS AT THE OPERATION SIGN SO WE LOOK ONE SPACE BEHIND IT
-                    if (j<=1) {
-                        firstNum=parseFloat(numsEntered[j-1]);
-                    //ELSE A NUMBER HAS BEEN ADDED BEFORE SO THE FIRST NUM IS SET AS THE SUBTOTAL
-                    }else{
-                        firstNum=subTotal;
-                    }
-                    //ONCE VARIABLES TO CALCULATE HAVE BEEN SET CALCULATIONS HAPPEN BASED ON OPERATION SIGN
-                    if (numsEntered[j]== "+") {
-                        subTotal=firstNum+secondNum
-                    }else if (numsEntered[j] == "-") {
-                        subTotal=firstNum-secondNum
-                    }else if (numsEntered[j] == "*"){
-                        subTotal= firstNum*secondNum
-                    }else if (numsEntered[j]== "/") {
-                        subTotal=firstNum/secondNum
-                    } 
-                }
+            //USE LOOP TO STORE EXPRESSION - FIRST NUM / OPERATION / SECOND NUM
+
+            for (let j = 0; j <i ; j++) {
+                const element = numsEntered[j];
+               expressionArr.push(element);
+            
             }
+            console.log(expressionArr);
         }
     }//END OUTTER FOR LOOP
-    toRunning(subTotal + " ")
+
+    let multFound=false;
+    let divFound=false;
+    let addFound=false;
+    let subFound=false;
+
+    expressionArr.forEach(element => {
+        
+        if (element== "*") {
+            multFound=true;
+        }else if (element=="/") {
+            divFound=true;
+        }else if (element=="+"){
+            addFound=true;
+        }else if (element== "-"){
+            subFound=true;
+        }
+    });
+
+    console.log(multFound);
+    console.log(divFound)
+    console.log(addFound)
+    console.log(subFound)
+
+    
+    if(multFound==true){
+        for (let i = 0; i < expressionArr.length; i++) {
+            const element = expressionArr[i];
+            if(element=="*"){
+                firstNum=parseFloat(expressionArr[i-1]);
+                secondNum=parseFloat(expressionArr[i+1]);
+                subTotal=firstNum*secondNum
+                
+                expressionArr.splice((i-1),3,subTotal);
+            }
+
+            console.log(expressionArr)
+        }
+    }
+    if(divFound==true){
+        for (let i = 0; i < expressionArr.length; i++) {
+            const element = expressionArr[i];
+            if(element=="/"){
+                firstNum=parseFloat(expressionArr[i-1]);
+                secondNum=parseFloat(expressionArr[i+1]);
+                subTotal=firstNum/secondNum
+                
+                expressionArr.splice((i-1),3,subTotal);
+            }
+            console.log(expressionArr)
+
+        }
+    }
+    if(addFound==true){
+        for (let i = 0; i < expressionArr.length; i++) {
+            const element = expressionArr[i];
+            if(element=="+"){
+                firstNum=parseFloat(expressionArr[i-1]);
+                secondNum=parseFloat(expressionArr[i+1]);
+                subTotal=firstNum+secondNum
+                
+                expressionArr.splice((i-1),3,subTotal);
+            }
+            console.log(expressionArr)
+
+        }
+    }
+    if(subFound==true){
+        for (let i = 0; i < expressionArr.length; i++) {
+            const element = expressionArr[i];
+            if(element=="-"){
+                firstNum=parseFloat(expressionArr[i-1]);
+                secondNum=parseFloat(expressionArr[i+1]);
+                subTotal=firstNum-secondNum
+                
+                expressionArr.splice((i-1),3,subTotal);
+            }
+            console.log(expressionArr)
+
+        }
+    }
+
+    toRunning(subTotal + ";  ")
     toMain(subTotal)
     totalsEntered.push(subTotal);
     console.log(totalsEntered);
-}//END FUNCTION
-
-
    
+    setTimeout(() => {
+    toMain(""); 
+    }, 1000); // 1000 milliseconds (1 second) delay
+
+}//END FUNCTION
 
 //GRAND TOTAL BUTTON
 let gtBtn=document.getElementById("grandTotal");
@@ -105,18 +190,17 @@ gtBtn.addEventListener("click", ()=>{
 
     toMain(total);
 })
-    
-
-
 
 //CLEAR ALL BUTTON
 let clearBtn=document.getElementById("clearAll");
 clearBtn.addEventListener("click", ()=>{
-    capturedNum="";
+    capturedNum=null;
+    userInput='';
+    runningDisplay.innerHTML=null;
     numsEntered=[];
     totalsEntered=[];
-    runningDisplay.innerHTML="";
-    userInput="";
+    expressionArr=[];
+    total=0;
     toMain(userInput);
 
 })

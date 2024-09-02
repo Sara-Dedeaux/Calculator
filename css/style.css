@@ -3,18 +3,19 @@ body{
 }
 
 .calcDisplay {
-    background-color: aquamarine;
+    background-color: rgb(137, 173, 161);
     height: 100px;
     border: 2px solid black;
     border-radius: 10px;
     border: inset 5px black;
+    font-family: "Handjet", sans-serif;
    
 }
 
 .calcBody{
     border: 2px solid black;
     border-radius: 10px;
-    background-color: blueviolet;
+    background-color: rgb(172, 105, 50); 
     
 }
 
@@ -23,9 +24,17 @@ input{
    height: 100px;
    border-radius: 50px;
    border-bottom-width: 6px;
-   background-color: aquamarine;
-   font-family: "PT Mono", monospace;
-
+   background-color:  rgb(197, 151, 165);
+   
+   
 }
 
+.buttonSpace input{
+    
+}
+
+#backSpace{
+    font-family: "SUSE", sans-serif;
+
+}
 
