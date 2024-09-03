@@ -1,6 +1,4 @@
-body{
- 
-}
+
 
 .calcDisplay {
     background-color: rgb(137, 173, 161);
@@ -29,12 +27,8 @@ input{
    
 }
 
-.buttonSpace input{
-    
-}
 
-#backSpace{
-    font-family: "SUSE", sans-serif;
-
+#equals{
+    width: 350px
 }
 

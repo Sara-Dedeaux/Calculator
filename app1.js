@@ -12,8 +12,9 @@ function toRunning(display){
 let userInput; 
 let capturedNum;
 let numsEntered = [];
-let totalsEntered= []; 
-let expressionArr=[];
+
+
+
 
 //CALCULATIONS VARIABLES
 let subTotal=0;
@@ -68,30 +69,13 @@ function calculations(){
     numsEntered.push("=")
     toRunning(capturedNum + " = " );
     
-   //LOOP THROUGH ALL NUMS ENTERED AND IF MULTIPLE EXPRESSIONS HAVE BEEN ENTERED - THEY CAN BE EVAULATED SEPARATELY 
-    for (let i = 0; i < numsEntered.length; i++) {
-        const element = numsEntered[i];
-        
-        //IF AN EQUAL SIGN IS FOUND IT IS KNOWN THAT THE EXPRESSION IS COMPLETED AND CAN USE i INDEX TO KNOW HOW MANY ELEMENTS EXIST IN EXPRESSION TO BE EVALUATED
-        if (element== "=") {
-
-            //USE LOOP TO STORE EXPRESSION - FIRST NUM / OPERATION / SECOND NUM
-
-            for (let j = 0; j <i ; j++) {
-                const element = numsEntered[j];
-               expressionArr.push(element);
-            
-            }
-            console.log(expressionArr);
-        }
-    }//END OUTTER FOR LOOP
-
+  
     let multFound=false;
     let divFound=false;
     let addFound=false;
     let subFound=false;
 
-    expressionArr.forEach(element => {
+    numsEntered.forEach(element => {
         
         if (element== "*") {
             multFound=true;
@@ -110,67 +94,66 @@ function calculations(){
     console.log(subFound)
 
     
+    
     if(multFound==true){
-        for (let i = 0; i < expressionArr.length; i++) {
-            const element = expressionArr[i];
+        for (let i = 0; i < numsEntered.length; i++) {
+            const element = numsEntered[i];
             if(element=="*"){
-                firstNum=parseFloat(expressionArr[i-1]);
-                secondNum=parseFloat(expressionArr[i+1]);
+                firstNum=parseFloat(numsEntered[i-1]);
+                secondNum=parseFloat(numsEntered[i+1]);
                 subTotal=firstNum*secondNum
                 
-                expressionArr.splice((i-1),3,subTotal);
+                numsEntered.splice((i-1),3,subTotal);
             }
 
-            console.log(expressionArr)
+            console.log(numsEntered)
         }
     }
     if(divFound==true){
-        for (let i = 0; i < expressionArr.length; i++) {
-            const element = expressionArr[i];
+        for (let i = 0; i < numsEntered.length; i++) {
+            const element = numsEntered[i];
             if(element=="/"){
-                firstNum=parseFloat(expressionArr[i-1]);
-                secondNum=parseFloat(expressionArr[i+1]);
+                firstNum=parseFloat(numsEntered[i-1]);
+                secondNum=parseFloat(numsEntered[i+1]);
                 subTotal=firstNum/secondNum
                 
-                expressionArr.splice((i-1),3,subTotal);
+                numsEntered.splice((i-1),3,subTotal);
             }
-            console.log(expressionArr)
+            console.log(numsEntered)
 
         }
     }
     if(addFound==true){
-        for (let i = 0; i < expressionArr.length; i++) {
-            const element = expressionArr[i];
+        for (let i = 0; i < numsEntered.length; i++) {
+            const element = numsEntered[i];
             if(element=="+"){
-                firstNum=parseFloat(expressionArr[i-1]);
-                secondNum=parseFloat(expressionArr[i+1]);
+                firstNum=parseFloat(numsEntered[i-1]);
+                secondNum=parseFloat(numsEntered[i+1]);
                 subTotal=firstNum+secondNum
                 
-                expressionArr.splice((i-1),3,subTotal);
+                numsEntered.splice((i-1),3,subTotal);
             }
-            console.log(expressionArr)
+            console.log(numsEntered)
 
         }
     }
     if(subFound==true){
-        for (let i = 0; i < expressionArr.length; i++) {
-            const element = expressionArr[i];
+        for (let i = 0; i < numsEntered.length; i++) {
+            const element = numsEntered[i];
             if(element=="-"){
-                firstNum=parseFloat(expressionArr[i-1]);
-                secondNum=parseFloat(expressionArr[i+1]);
+                firstNum=parseFloat(numsEntered[i-1]);
+                secondNum=parseFloat(numsEntered[i+1]);
                 subTotal=firstNum-secondNum
                 
-                expressionArr.splice((i-1),3,subTotal);
+                numsEntered.splice((i-1),3,subTotal);
             }
-            console.log(expressionArr)
+            console.log(numsEntered)
 
         }
     }
 
     toRunning(subTotal + ";  ")
     toMain(subTotal)
-    totalsEntered.push(subTotal);
-    console.log(totalsEntered);
    
     setTimeout(() => {
     toMain(""); 
@@ -182,26 +165,37 @@ function calculations(){
 let gtBtn=document.getElementById("grandTotal");
 gtBtn.addEventListener("click", ()=>{
     runningDisplay.innerHTML="";
-    totalsEntered.forEach(element => {
-        total+=element;
-        toRunning("+" + element + " ");
+    numsEntered.forEach(element => {
+        if (element != "="){
+            total+=element;
+            toRunning("+" + element + ";  ");
+        }
+
+
         
     });
 
+    toRunning("=")
     toMain(total);
+    setTimeout(() => {
+        toMain(""); 
+        toRunning(total)
+    }, 1000); // 1000 milliseconds (1 second) delay
+    
+    
 })
 
 //CLEAR ALL BUTTON
 let clearBtn=document.getElementById("clearAll");
 clearBtn.addEventListener("click", ()=>{
+  
+    runningDisplay.innerHTML="test";
     capturedNum=null;
-    userInput='';
-    runningDisplay.innerHTML=null;
+    userInput='test2';
     numsEntered=[];
-    totalsEntered=[];
-    expressionArr=[];
     total=0;
-    toMain(userInput);
+  
+
 
 })
 
