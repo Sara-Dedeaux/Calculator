@@ -18,6 +18,8 @@ numButtons.forEach(input =>{
     input.addEventListener("click", function() {
         userInput=displayScreen.innerHTML+=input.value;
     })
+
+    input.addEventListener("")
 })
 
 //KEY PRESS FUNCTIONALITY ADDED 

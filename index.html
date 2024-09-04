@@ -12,6 +12,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=SUSE:wght@100..800&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
+
     <title>Calculator</title>
 </head>
 <body>
@@ -21,22 +26,22 @@
             <div class="centerPanel col-8">
                 <div class="container calcBody">
                     <br>
-                    <div class="row calcDisplay"> 
+                    <div class="row calcDisplay text-end"> 
                         <p></p>
                         <h1></h1>
                     </div>
                     <div class="row ">
                         <div class="col-3 btnSpace">
-                            <input type="button" id="grandTotal" value="GT">
+                            <input type="button"  class="feature" id="grandTotal" value="GT">
                         </div>
                         <div class="col-3 btnSpace">
-                            <input type="button" id="backButton" value="DEL">
+                            <input type="button" class="feature" id="backButton" value="DEL">
                         </div>
                         <div class="col-3 btnSpace">
-                            <input type="button" id="clearEntry" value="CE">
+                            <input type="button" class="feature" id="clearEntry" value="CE">
                         </div>
                         <div class="col-3 btnSpace">
-                            <input type="button" id="clearAll" value="C">
+                            <input type="button" class="feature" id="clearAll" value="C">
                         </div>
                     </div>  
                     <div class="row">
@@ -89,7 +94,7 @@
                             <input type="button" class="num"  value=".">
                         </div>
                         <div class="col-3 btnSpace">
-                            <input type="button" id="negative" value="+/-">
+                            <input type="button" class="feature" id="negative" value="+/-">
                         </div>
                         <div class="col-3 btnSpace">
                             <input type="button" id="add" class="operation "  value="+">
@@ -97,11 +102,11 @@
                         
                     </div>
                     <div class="row">
-                        <div class="col-1"></div>
-                        <div class="col-10 btnSpace "  >
-                            <input type="button" id="equals" value="=">
+                        <div class="col-1 col-md-4 col-lg-7"></div>
+                        <div class="col-10 col-md-7 col-lg-4 btnSpace "  >
+                            <input type="button" class="feature" id="equals" value="=">
                         </div>
-                        <div class="col-1"></div>
+                        <div class="col-1 col-lg-1 col-md-1"></div>
                     </div>
                     <br>
                 </div>

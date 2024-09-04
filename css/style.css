@@ -7,28 +7,87 @@
     border-radius: 10px;
     border: inset 5px black;
     font-family: "Handjet", sans-serif;
+    font-size: x-large;
+   
    
 }
 
 .calcBody{
     border: 2px solid black;
     border-radius: 10px;
-    background-color: rgb(172, 105, 50); 
+    background-color: rgb(13, 13, 43); 
     
 }
 
 input{
-   width: 100px;
-   height: 100px;
+   width: 60px;
+   height: 60px;
    border-radius: 50px;
    border-bottom-width: 6px;
-   background-color:  rgb(197, 151, 165);
+   background-color:  #070313;
    
+
+
    
 }
+
+.num, .operation,.feature{
+    font-family: "Bungee Spice", sans-serif;
+    font-weight: 600;
+    font-size: xx-large;
+   
+}
+
 
 
 #equals{
-    width: 350px
+    width: 250px
+    
 }
+
+
+@media( min-width: 768px){
+
+    input{
+        width: 100px;
+        height: 100px;
+       
+    };
+   
+    #equals{
+        width: 450px
+        
+    }
+}
+
+
+@media( min-width: 992px){
+
+    input{
+        width: 130px;
+        height: 100px;
+       
+    };
+   
+    #equals{
+        width: 450px
+        
+    }
+}
+
+@media( min-width: 1400px){
+
+    input{
+        width: 150px;
+        height: 100px;
+       
+    };
+   
+    #equals{
+        width: 450px
+        
+    }
+}
+
+
 
