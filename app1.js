@@ -102,6 +102,7 @@ clearBtn.addEventListener("click", ()=>{
     userInput="";
     numsEntered=[];
     total=0;
+    toMain("");
 })
 
 //CLICK EVENT FOR DEL REMOVE LAST NUMBER ENTERED BY USER
@@ -160,6 +161,8 @@ function calculations(){
                 subTotal=firstNum*secondNum
                 
                 numsEntered.splice((i-1),3,subTotal);
+                i=0; 
+
             }
         }
     }
@@ -172,10 +175,14 @@ function calculations(){
                 subTotal=firstNum/secondNum
                 
                 numsEntered.splice((i-1),3,subTotal);
+                i=0; 
+
             }
         }
     }
+    //BUG FOUND= SINCE I AM UPDATAING THE ARRAY WITH SPLICE - i IS NO LONGER AT THE CORRECT POSITION TO EVALUATE THE EXPRESSION. MAYBE AFTER IT IS EVAULATED SET i TO i=0 TO RE-EVAULUATE?
     if(addFound==true){
+        
         for (let i = 0; i < numsEntered.length; i++) {
             const element = numsEntered[i];
             if(element=="+"){
@@ -184,6 +191,7 @@ function calculations(){
                 subTotal=firstNum+secondNum
                 
                 numsEntered.splice((i-1),3,subTotal);
+                i=0; 
             }
         }
     }
@@ -196,6 +204,8 @@ function calculations(){
                 subTotal=firstNum-secondNum
                 
                 numsEntered.splice((i-1),3,subTotal);
+                i=0; 
+
             }
         }
     }
